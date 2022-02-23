@@ -1,6 +1,6 @@
-import { Button } from "../utilities/index";
+import { Button, TiketNumber } from "../utilities/index";
 
-export function createTest()
+export function createTest(gameCanvas: UICanvas)
 {
     const button = new Button(new Transform({position: new Vector3(10, 0, 10)}));
 
@@ -18,7 +18,8 @@ export function createTest()
         log(round);
 
         //show that number in a ui
-
+        const stringNumber = round.toString();
+        const tiket = new TiketNumber(gameCanvas, stringNumber);
         
     }));
 }

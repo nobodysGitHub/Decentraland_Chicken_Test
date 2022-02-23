@@ -1,3 +1,5 @@
 import { createTest } from "./scenes/test";
 
-createTest();
+const gameCanvas = new UICanvas();
+
+createTest(gameCanvas);
