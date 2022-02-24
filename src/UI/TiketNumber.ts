@@ -30,7 +30,7 @@ export class TiketNumber{
 
         const number = new UIText(this.container)
         number.outlineColor = new Color4 (0.7, 0.3, 0.3, 1)
-        number.value = "peep" + tiketNumber;
+        number.value = "your lucky number is: " + tiketNumber;
         number.fontSize = 22;
         number.width = 500;
         number.height = 205;

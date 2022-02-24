@@ -1,3 +1,6 @@
-export function listOfPatecipants(playerWalletID: string, ticketNumber: number){
-
+export function creatingLists()
+{
+    const numberOfTicket = new Array();
+    const playerAddress = new Array();
 }
+
