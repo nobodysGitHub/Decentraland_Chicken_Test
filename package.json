@@ -12,5 +12,11 @@
   },
   "devDependencies": {
     "decentraland-ecs": "latest"
-  }
+  },
+  "dependencies": {
+    "eth-connect": "^6.0.2"
+  },
+  "bundledDependencies": [
+    "eth-connect"
+  ]
 }

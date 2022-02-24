@@ -1,7 +1,8 @@
 import { getUserAccount } from "@decentraland/EthereumController";
 import { getUserPublicKey } from "@decentraland/Identity";
 import { getPlayerData } from "@decentraland/Players";
-import { Button, TiketNumber,listOfPatecipants } from "../utilities/index";
+import { Button, TiketNumber,creatingLists } from "../utilities/index";
+
 
 
 export function createTest(gameCanvas: UICanvas)
@@ -15,6 +16,22 @@ export function createTest(gameCanvas: UICanvas)
         
         
         
+        
+
+        executeTask(async () => {
+        try {
+            const address = await getUserAccount()
+            log(address)
+        } catch (error) {
+            log("toString()")
+        }})
+
+
+        const player = getPlayerData;
+
+        
+
+
 
         const ratto = doSomething();
         async function doSomething() 
@@ -45,6 +62,6 @@ export function createTest(gameCanvas: UICanvas)
 
         //add number to list
         //add address to list
-        //listOfPatecipants(playerWallet, round)
+        //listOfPatecipants(round)
     }));
 }
