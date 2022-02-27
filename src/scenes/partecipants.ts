@@ -1,6 +1,21 @@
-export function creatingLists()
+const numberOfTicket = new Array();
+const playerAddress = new Array();
+
+export class Partecipants extends Entity
 {
-    const numberOfTicket = new Array();
-    const playerAddress = new Array();
+    eid()
+    {
+        log(numberOfTicket)
+        numberOfTicket.push(3)
+        log(numberOfTicket)
+    }
+}
+
+export function addToLists(adress: string, ticketNumber: number)
+{
+    numberOfTicket.push(ticketNumber);
+    playerAddress.push(adress);
+    log(playerAddress);
+    log(numberOfTicket);
 }
 

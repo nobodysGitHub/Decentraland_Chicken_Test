@@ -1,4 +1,4 @@
-
+import { transaction } from "src/scenes/transactions";
 
 const imageTexture = new Texture('images/Pay_UI.png')
 const scale = 0.55
@@ -47,6 +47,7 @@ export class ConfirmTransaction
         currentPayment.hTextAlign = 'center'
         currentPayment.color = Color4.FromHexString('#FF0050FF')
 
+
         const AcceptButton = new UIImage(background, imageTexture)
         AcceptButton.name = 'AcceptButton'
         AcceptButton.width = 460 * scale
@@ -60,11 +61,13 @@ export class ConfirmTransaction
         AcceptButton.sourceWidth = 460
         AcceptButton.sourceHeight = 74
         AcceptButton.isPointerBlocker = true
+
         AcceptButton.onClick = new OnPointerDown(() => 
         {
-        this.container.visible = false
-        //this.payFee()
+            this.container.visible = false
+            transaction(gameCanvas);
         })
+
 
         const CancelButton = new UIImage(background, imageTexture)
         CancelButton.name = 'AcceptButton'
@@ -79,9 +82,10 @@ export class ConfirmTransaction
         CancelButton.sourceWidth = 460
         CancelButton.sourceHeight = 74
         CancelButton.isPointerBlocker = true
+
         CancelButton.onClick = new OnPointerDown(() => 
         {
-        this.container.visible = false
+            this.container.visible = false
         })
     }
 }
