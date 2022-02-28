@@ -12,18 +12,18 @@ export class TiketNumber{
         this.container.height = "100%"
 
         const tiket = new UIImage(this.container, resources.textures.tiket)
-        tiket.sourceHeight = 512;
-        tiket.sourceWidth = 512;
+        tiket.sourceHeight = 1378;
+        tiket.sourceWidth = 2634;
         tiket.height = 512;
         tiket.width = 512;
 
-        const closeButton = new UIImage(this.container, resources.textures.closeButton)
+        /*const closeButton = new UIImage(this.container, resources.textures.closeButton)
         closeButton.sourceHeight = 92;
         closeButton.sourceWidth = 92;
         closeButton.height = 46;
         closeButton.width = 46;
         closeButton.positionX = 256;
-        closeButton.positionY = 256;
+        closeButton.positionY = 256;*/
         
 
 
@@ -40,8 +40,8 @@ export class TiketNumber{
         number.textWrapping = true;
         
 
-        closeButton.onClick = new OnPointerDown((): void =>{
+        /*closeButton.onClick = new OnPointerDown((): void =>{
             this.container.visible = false;
-        })
+        })*/
     }
 }
