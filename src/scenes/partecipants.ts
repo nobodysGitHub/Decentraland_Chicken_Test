@@ -1,15 +1,8 @@
+import { ExpireIn } from "@dcl/ecs-scene-utils";
+import { createTest } from "./test";
+
 const numberOfTicket = new Array();
 const playerAddress = new Array();
-
-export class Partecipants extends Entity
-{
-    eid()
-    {
-        log(numberOfTicket)
-        numberOfTicket.push(3)
-        log(numberOfTicket)
-    }
-}
 
 export function addToLists(adress: string, ticketNumber: number)
 {
@@ -17,5 +10,30 @@ export function addToLists(adress: string, ticketNumber: number)
     playerAddress.push(adress);
     log(playerAddress);
     log(numberOfTicket);
+
+    if(playerAddress.length >= 2)
+    {
+        
+    }
 }
+
+export function playerAreMoreThenTwo(): boolean
+{
+
+    const isTrue = true;
+    log ("dio porco" + isTrue)
+    return isTrue;
+
+    /*if(playerAddress.length >= 2)
+    {
+        isTrue = true;
+        return isTrue;
+    }
+    else
+    {
+        isTrue = true;
+        return isTrue;
+    }*/
+}
+
 
