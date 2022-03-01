@@ -7,7 +7,7 @@ import { ConfirmTransaction } from "../UI/ConfirmTransaction";
 import { transaction } from "src/scenes/transactions";
 import { printingTicket } from "src/scenes/printingTicket";
 import { Timer } from "src/gameObjects/Timer";
-import { playerAreMoreThenTwo } from "../scenes/partecipants";
+import { playerMoreThenTwo } from "../scenes/partecipants";
 
 // export to make it visible for 
-export { Button, TiketNumber,  ConfirmTransaction, addToLists, transaction, printingTicket, Timer, createTest, playerAreMoreThenTwo }
+export { Button, TiketNumber,  ConfirmTransaction, addToLists, transaction, printingTicket, Timer, createTest, playerMoreThenTwo }

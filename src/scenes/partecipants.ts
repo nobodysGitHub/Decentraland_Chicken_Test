@@ -10,30 +10,22 @@ export function addToLists(adress: string, ticketNumber: number)
     playerAddress.push(adress);
     log(playerAddress);
     log(numberOfTicket);
-
-    if(playerAddress.length >= 2)
-    {
-        
-    }
 }
 
-export function playerAreMoreThenTwo(): boolean
+export function playerMoreThenTwo(): boolean
 {
+    let isTrue;
 
-    const isTrue = true;
-    log ("dio porco" + isTrue)
-    return isTrue;
-
-    /*if(playerAddress.length >= 2)
+    if(playerAddress.length >= 2)
     {
         isTrue = true;
         return isTrue;
     }
     else
     {
-        isTrue = true;
+        isTrue = false;
         return isTrue;
-    }*/
+    }
 }
 
 

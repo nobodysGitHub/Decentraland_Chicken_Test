@@ -1,19 +1,29 @@
 import * as utils from '@dcl/ecs-scene-utils'
-import { Button, ConfirmTransaction, Timer, playerAreMoreThenTwo} from "../utilities/index";
+import { Button, ConfirmTransaction, Timer, playerMoreThenTwo} from "../utilities/index";
 
 
 
 export function createTest(gameCanvas: UICanvas)
 {
     const button = new Button(new Transform({position: new Vector3(10, 0, 10)}));
-    const stronzo = false;
+
+    let gameStarted = false;
+    
     
     button.addComponent(new OnPointerDown((): void =>
     {
-        button.pressed();
-
-        const confirmPayment = new ConfirmTransaction(gameCanvas); 
+        if(!gameStarted)
+        {
+            button.pressed();
+        
+            const confirmPayment = new ConfirmTransaction(gameCanvas);
+        }
+        else
+        {
+            //manda un messaggio dicendo che il gioco e' gia' iniziato
+        }
     }));
+    
 
 
     let roundTimeInSeconds = 30;
@@ -30,13 +40,14 @@ export function createTest(gameCanvas: UICanvas)
         else
         {
             countDownClock.removeComponent(utils.Interval);
-            //if players > 2
             
-            const cane = playerAreMoreThenTwo();
-            log(cane);
-
-
-            //start the game
+            const areThey = playerMoreThenTwo();
+            if(areThey)
+            {                
+                //start the game
+                
+                gameStarted = true;
+            }
         }
     }))
 }
