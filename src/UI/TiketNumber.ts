@@ -16,8 +16,8 @@ export class TiketNumber{
         tiket.sourceWidth = 2634;
         tiket.height = 137.8;
         tiket.width = 263.4;
-        tiket.positionX = 700;
-        tiket.positionY = 300;
+        tiket.positionX = 680;
+        tiket.positionY = 260;
 
         
         const number = new UIText(this.container)
