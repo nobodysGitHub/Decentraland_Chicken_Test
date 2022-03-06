@@ -46,6 +46,8 @@ export function createTest(gameCanvas: UICanvas)
             {                
                 //start the game
                 
+
+                
                 gameStarted = true;
             }
         }

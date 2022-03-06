@@ -1,3 +1,4 @@
+import { howManyBoxes } from "src/scenes/printingTicket"
 import { box } from "./box"
 
 export function boxBuilder()
@@ -20,6 +21,9 @@ export function boxBuilder()
     let boxArray = new Array
     const parent = new Entity
     engine.addEntity(parent)
+
+    //let the script printing tikets know how many boxes are in the scene
+    howManyBoxes(boxesAmount)
 
 
     for(let i = 0; i < boxesAmount; i++)

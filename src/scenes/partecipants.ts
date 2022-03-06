@@ -1,30 +1,37 @@
-import { ExpireIn } from "@dcl/ecs-scene-utils";
-import { createTest } from "./test";
+import { chickenPathCreation } from "src/gameObjects/Chicken";
 
-const numberOfTicket = new Array();
+
+const numberOfTickets = new Array();
 const playerAddress = new Array();
+
+let boxesNumber = 0
+
+export function howManyBoxesInGrid(boxesAmount: number){
+    boxesNumber = boxesAmount
+}
 
 export function addToLists(adress: string, ticketNumber: number)
 {
-    numberOfTicket.push(ticketNumber);
+    numberOfTickets.push(ticketNumber);
     playerAddress.push(adress);
     log(playerAddress);
-    log(numberOfTicket);
+    log(numberOfTickets);
 }
 
 export function playerMoreThenTwo(): boolean
 {
-    let isTrue;
+    let theyAre;
 
     if(playerAddress.length >= 2)
     {
-        isTrue = true;
-        return isTrue;
+        theyAre = true;
+        chickenPathCreation(boxesNumber, numberOfTickets)
+        return theyAre;
     }
     else
     {
-        isTrue = false;
-        return isTrue;
+        theyAre = false;
+        return theyAre;
     }
 }
 
