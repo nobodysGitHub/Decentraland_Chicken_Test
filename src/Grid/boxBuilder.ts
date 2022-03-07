@@ -1,5 +1,6 @@
-import { howManyBoxes } from "src/scenes/printingTicket"
 import { box } from "./box"
+
+let boxArray = new Array
 
 export function boxBuilder()
 {
@@ -18,12 +19,9 @@ export function boxBuilder()
     let posX = boxStartPosX
     const boxesAmount = rowLenght * rowLenght;
 
-    let boxArray = new Array
     const parent = new Entity
     engine.addEntity(parent)
 
-    //let the script printing tikets know how many boxes are in the scene
-    howManyBoxes(boxesAmount)
 
 
     for(let i = 0; i < boxesAmount; i++)
@@ -53,6 +51,18 @@ export function boxBuilder()
     parent.addComponent(new Transform({
         rotation: Quaternion.Euler(0, boxesRotationY, 0)
     }))
-
-    log(boxArray)
 }
+
+export function returnRelativeBoxPosition(boxPath: Array<number>): Array<Vector3>
+{
+    let returnArray = new Array
+
+    for(let i = 0; i < boxPath.length; i++)
+    {
+        let dio = boxPath[i]
+        returnArray.push(boxArray[dio])
+    }
+    
+    return returnArray
+}
+

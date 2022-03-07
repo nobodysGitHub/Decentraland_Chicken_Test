@@ -65,7 +65,7 @@ export class ConfirmTransaction
         AcceptButton.onClick = new OnPointerDown(() => 
         {
             this.container.visible = false
-            transaction(gameCanvas);
+            //transaction(gameCanvas);
         })
 
 

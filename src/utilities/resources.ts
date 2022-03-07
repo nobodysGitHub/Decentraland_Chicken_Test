@@ -4,5 +4,10 @@ export default   // in this way, you create just one istance of an object, then 
     {
         closeButton: new Texture("images/button_close.png"),
         tiket: new Texture("images/Ticket.png")
+    },
+
+    models:
+    {
+        doggo: new GLTFShape("models/BlackDog.glft")
     }
 }

@@ -1,7 +1,7 @@
 import { getUserAccount } from "@decentraland/EthereumController";
 import { printingTicket } from "./printingTicket";
 
-export function transaction(gameCanvas: UICanvas)
+export function transaction(/*gameCanvas: UICanvas*/)
 {
     //se if it has already the ticket
     //see balance
@@ -13,7 +13,7 @@ export function transaction(gameCanvas: UICanvas)
     try 
     {
         const address = await getUserAccount();
-        printingTicket(gameCanvas, address);
+        //printingTicket(gameCanvas, address);
     } 
     catch (error) 
     {

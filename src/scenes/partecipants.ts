@@ -1,14 +1,8 @@
-import { chickenPathCreation } from "src/gameObjects/Chicken";
+//import { chickenPathCreation } from "src/gameObjects/Chicken";
 
 
 const numberOfTickets = new Array();
 const playerAddress = new Array();
-
-let boxesNumber = 0
-
-export function howManyBoxesInGrid(boxesAmount: number){
-    boxesNumber = boxesAmount
-}
 
 export function addToLists(adress: string, ticketNumber: number)
 {
@@ -25,7 +19,7 @@ export function playerMoreThenTwo(): boolean
     if(playerAddress.length >= 2)
     {
         theyAre = true;
-        chickenPathCreation(boxesNumber, numberOfTickets)
+        //chickenPathCreation(numberOfTickets)
         return theyAre;
     }
     else
