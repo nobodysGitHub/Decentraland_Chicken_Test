@@ -8,10 +8,13 @@ export function chickenCreation()
   chicken = new Entity();
   chicken.addComponent(new BoxShape)
   chicken.addComponent(new Transform({
-    position: new Vector3(8, 0, 8),
-    rotation: Quaternion.Euler(0, -90, 0)
-      
+    position: new Vector3(8, 0.1, 8),
+    rotation: Quaternion.Euler(0, -90, 0),
+    scale: new Vector3(0.5, 1.7, 0.5)
   }))
+  const mat = new Material
+  mat.albedoColor = Color3.Blue()
+  chicken.addComponent(mat)
   engine.addEntity(chicken)
     
       
@@ -64,7 +67,6 @@ export class pathAttuation
         {
           entering = false
           walking = true
-          log("aio")
           
   
           //timer = animCooldown
@@ -169,7 +171,7 @@ export function chickenPathCreation(takenNumbers: Array<number>)
       let randomBoxNumber = Math.floor(num)
       pathInNumbers.push(randomBoxNumber) 
     }
-    else
+    else 
     {
       //add RANDOM taken box number
       let num = Math.random() * (takenNumbers.length)
@@ -180,9 +182,9 @@ export function chickenPathCreation(takenNumbers: Array<number>)
   }
 
   Wanderpath =  returnRelativeBoxPosition(pathInNumbers)
-  log(pathInNumbers)
+  log(Wanderpath)
 
-  //chickenCreation()
+  chickenCreation()
 }  
 
 
