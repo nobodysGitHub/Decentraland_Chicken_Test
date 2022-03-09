@@ -1,5 +1,7 @@
 import { returnRelativeBoxPosition } from "src/Grid/boxBuilder";
+import { recompensatePlayer } from "src/scenes/partecipants";
 import resources from "src/utilities/resources";
+import { Poop } from "./poop";
 
 let chicken = new Entity
 
@@ -12,9 +14,11 @@ export function chickenCreation()
     rotation: Quaternion.Euler(0, -90, 0),
     scale: new Vector3(0.5, 1.7, 0.5)
   }))
+
   const mat = new Material
   mat.albedoColor = Color3.Blue()
   chicken.addComponent(mat)
+
   engine.addEntity(chicken)
     
       
@@ -35,12 +39,15 @@ let timer = animCooldown
 let entering = true
 let walking = false
 
-const spawnPoint = new Vector3(8, 0, 8)
-const enterExitPoint = new Vector3(8.3, 0, 8)
-let actualPose = new Vector3
-const enterPath: Vector3[]= [spawnPoint, enterExitPoint]
-const exitPath: Vector3[] = [actualPose, enterExitPoint, spawnPoint]
-let Wanderpath = new Array
+const chickenSpawnPoint = new Vector3(2, 0, 12)
+const chickEnenterExitPoint = new Vector3(1, 0, 11) //This has to be as close as possible to greed
+
+const enterPath: Vector3[]= [chickenSpawnPoint, chickEnenterExitPoint]
+const exitPath: Vector3[] = [chickEnenterExitPoint, chickenSpawnPoint]
+let WanderPath = new Array
+
+let enterFirstStep = true
+let firstStepExit = true
 
 
 export class pathAttuation
@@ -51,34 +58,51 @@ export class pathAttuation
     /*if(timer >= 0)/*/
 
     
-      if (entering){
+      if (entering)
+      {
         let transform = chicken.getComponent(Transform)
         let pathData = chicken.getComponent(LerpData)
-        pathData.fraction += dt / 12
+        pathData.fraction += dt / 6
   
+
         if(pathData.fraction < 1)
         {
-          transform.position = Vector3.Lerp(
-          pathData.enterPoints[pathData.origin],
-          pathData.enterPoints[pathData.target], 
-          pathData.fraction)         
+          if (enterFirstStep)
+          {
+            transform.position = Vector3.Lerp(
+              pathData.enterPoints[pathData.origin],
+              pathData.enterPoints[pathData.target], 
+              pathData.fraction)      
+          }
+          else
+          {
+            transform.position = Vector3.Lerp(
+              pathData.enterPoints[pathData.target],
+              pathData.wanderPoints[pathData.origin], 
+              pathData.fraction) 
+          }
         }
-        else
+        else //entra solo se hai raggiunto l'obbiettivo 
         {
-          entering = false
-          walking = true
-          
-  
-          //timer = animCooldown
           pathData.fraction = 0
+
+          if(enterFirstStep)
+          {
+            enterFirstStep = false   //farai il secondo step
+          }
+          else
+          {
+            entering = false;    //passa a walking
+            walking = true;
+          }
         }
       }
 
-      if (walking){
-        
+      if (walking)
+      {
         let transform = chicken.getComponent(Transform)
         let pathData = chicken.getComponent(LerpData)
-        pathData.fraction += dt / 12  
+        pathData.fraction += dt / 6  
     
         if(pathData.fraction < 1)
         {
@@ -89,11 +113,15 @@ export class pathAttuation
         }
         else
         {
-          
-          if(pathData.origin = takenBoxLocationInPathArrayIndex[howManyTakenNumbers])
+          if(pathData.origin = wichOfTheListIsAnOwnNumber[indexArray])
           {
-            //poop
-            howManyTakenNumbers++
+            //POOP
+            const poop = new Poop(transform.position)
+
+            //get the player address that has that number
+            recompensatePlayer(true, wichOfTheListIsAnOwnNumber[indexArray])
+
+            indexArray++
           }
     
           pathData.origin = pathData.target
@@ -102,7 +130,10 @@ export class pathAttuation
           if (pathData.target >= pathData.wanderPoints.length) 
           {
             //la lista dei punti e' finita
-            //caga l'uovo
+
+            //Lay the egg                                 IT HAS TO BE GIVEN FROM THE SC
+            recompensatePlayer(false, wichOfTheListIsAnOwnNumber[indexArray])
+
             walking = false
           }
     
@@ -111,78 +142,85 @@ export class pathAttuation
           transform.lookAt(pathData.wanderPoints[pathData.target])
         } 
       }
-      
-      else if(!entering){
+      else if(!entering)
+      {
         let transform = chicken.getComponent(Transform)
-        storeActualPose(transform)
-        let pathData = chicken.getComponent(LerpData)
-        pathData.fraction += dt / 12
-  
+        let pathData = chicken.getComponent(LerpData)        
+        pathData.fraction += dt / 6
+
         if(pathData.fraction < 1)
         {
-          transform.position = Vector3.Lerp(
-          pathData.exitPoints[pathData.origin],
-          pathData.exitPoints[pathData.target], 
-          pathData.fraction)
-        }
-        else
-        {
-          pathData.origin = pathData.target
-          pathData.target += 1
-  
-          if (pathData.target >= pathData.exitPoints.length) 
+          if (firstStepExit)
           {
-            //e' arrivato alla fine
-            //remove component
+            transform.position = Vector3.Lerp(
+              pathData.wanderPoints[pathData.target],
+              pathData.exitPoints[pathData.origin], 
+              pathData.fraction)      
           }
-  
-          timer = animCooldown
+          else
+          {
+            transform.position = Vector3.Lerp(
+              pathData.exitPoints[pathData.origin],
+              pathData.exitPoints[pathData.target], 
+              pathData.fraction) 
+          }
+        }
+        else //entra solo se hai raggiunto l'obbiettivo 
+        {
           pathData.fraction = 0
-          transform.lookAt(pathData.exitPoints[pathData.target])
+
+          if(firstStepExit)
+          {
+            //firstStepExit = false 
+            //transform.lookAt(pathData.exitPoints[pathData.target])  //farai il secondo step
+          }
+          else
+          {
+            //FINE  del gioco
+          }
         }
       }
     }
   }
 
 
-export function storeActualPose(transform: Transform){
-    let i = 0
-    if (i = 0){
-      actualPose = transform.position   
-      i++
-    }
-}
 
 
 
-let pathInNumbers = new Array
-let takenBoxLocationInPathArrayIndex = new Array
-let howManyTakenNumbers = 0
+let MainPathSequence = new Array
+let wichOfTheListIsAnOwnNumber = new Array
+let indexArray = 0
 
-export function chickenPathCreation(takenNumbers: Array<number>)
+export function chickenPathCreation(numbersOwnThisRound: Array<number>)
 {
-  for(let i = 0; i < 10; i++)
+  for(let i = 0; i < 2; i++)
   {    
     let odds = Math.random()
-    if(odds > 0.02)
+    if(odds < 0.8)
     {
       //add RANDOM box number 
       let num = Math.random() * 36
       let randomBoxNumber = Math.floor(num)
-      pathInNumbers.push(randomBoxNumber) 
+
+      //create the path for the chicken
+      MainPathSequence.push(randomBoxNumber) 
     }
     else 
     {
-      //add RANDOM taken box number
-      let num = Math.random() * (takenNumbers.length)
-      let randomTakenBoxNumber = Math.floor(num)
-      pathInNumbers.push(takenNumbers[randomTakenBoxNumber])
-      takenBoxLocationInPathArrayIndex.push(pathInNumbers.length - 1)
+      //Select taken box number
+      let num = Math.random() * (numbersOwnThisRound.length)
+      let ranNumberSelected = Math.floor(num)
+
+      //create the path for the chicken
+      MainPathSequence.push(numbersOwnThisRound[ranNumberSelected])
+
+      //To understand wich number of the sequence is the taken one
+      wichOfTheListIsAnOwnNumber.push(MainPathSequence.length)
     }
   }
 
-  Wanderpath =  returnRelativeBoxPosition(pathInNumbers)
-  log(Wanderpath)
+  WanderPath =  returnRelativeBoxPosition(MainPathSequence)
+  log(WanderPath)
 
   chickenCreation()
 }  
@@ -193,7 +231,7 @@ export function chickenPathCreation(takenNumbers: Array<number>)
 export class LerpData 
 {
   enterPoints: Vector3[] = enterPath
-  wanderPoints: Vector3[] = Wanderpath
+  wanderPoints: Vector3[] = WanderPath
   exitPoints: Vector3[] = exitPath   
 
   origin: number = 0

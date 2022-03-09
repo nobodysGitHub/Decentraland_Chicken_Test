@@ -7,8 +7,8 @@ export function boxBuilder()
     //Values to modify
     const rowLenght = 6
 
-    const boxStartPosX = 10
-    const boxStartPosZ = 15
+    const boxStartPosX = 1
+    const boxStartPosZ = 10
     const boxesRotationY = 0;
     const boxSpacing = 1.2
 
