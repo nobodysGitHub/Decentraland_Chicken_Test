@@ -1,7 +1,7 @@
 // costruttore della cacca
-export class Poop extends Entity
+export class Droppable extends Entity
 {
-    constructor(poopPose: Vector3)
+    constructor(poopPose: Vector3, poop: boolean)
     {
         super()
         engine.addEntity(this)
@@ -12,16 +12,32 @@ export class Poop extends Entity
             scale: new Vector3(0.1, 0.1, 0.1)
         }))
 
+        if(poop)
+        {
+            const mat = new Material
+            mat.albedoColor = Color3.Green()
+            this.addComponent(mat)
+        }
+        else
+        {
+            const mat = new Material
+            mat.albedoColor = Color3.Yellow()
+            this.addComponent(mat)
+        }
         
-        const mat = new Material
-        mat.albedoColor = Color3.Green()
-        this.addComponent(mat)
     }
 }
 
 /**leadboard
  * store players address
  * store howmany poop
+ * ^
+ * 
+ * 
+ * sei un droppable, 
+ * - ricevi un transform di dove apparire 
+ * - e una bool, se sei cacca o se sei un uovo
+ *      a seconda della bool instanzi un modello diverso 
  * 
  * 
  * 

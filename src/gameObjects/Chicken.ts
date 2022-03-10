@@ -1,7 +1,7 @@
 import { returnRelativeBoxPosition } from "src/Grid/boxBuilder";
 import { recompensatePlayer } from "src/scenes/partecipants";
 import resources from "src/utilities/resources";
-import { Poop } from "./poop";
+import { Droppable } from "./poop";
 
 let chicken = new Entity
 
@@ -38,12 +38,14 @@ const animCooldown = 5
 let timer = animCooldown
 let entering = true
 let walking = false
+let exiting = false
 
 const chickenSpawnPoint = new Vector3(2, 0, 12)
 const chickEnenterExitPoint = new Vector3(1, 0, 11) //This has to be as close as possible to greed
 
+let lastPathPoint = new Vector3
 const enterPath: Vector3[]= [chickenSpawnPoint, chickEnenterExitPoint]
-const exitPath: Vector3[] = [chickEnenterExitPoint, chickenSpawnPoint]
+const exitPath: Vector3[] = [lastPathPoint, chickEnenterExitPoint, chickenSpawnPoint]
 let WanderPath = new Array
 
 let enterFirstStep = true
@@ -70,15 +72,15 @@ export class pathAttuation
           if (enterFirstStep)
           {
             transform.position = Vector3.Lerp(
-              pathData.enterPoints[pathData.origin],
-              pathData.enterPoints[pathData.target], 
+              pathData.enterPoints[0],
+              pathData.enterPoints[1], 
               pathData.fraction)      
           }
           else
           {
             transform.position = Vector3.Lerp(
-              pathData.enterPoints[pathData.target],
-              pathData.wanderPoints[pathData.origin], 
+              pathData.enterPoints[1],
+              pathData.wanderPoints[0], 
               pathData.fraction) 
           }
         }
@@ -116,7 +118,7 @@ export class pathAttuation
           if(pathData.origin = wichOfTheListIsAnOwnNumber[indexArray])
           {
             //POOP
-            const poop = new Poop(transform.position)
+            const poop = new Droppable(transform.position, true)
 
             //get the player address that has that number
             recompensatePlayer(true, wichOfTheListIsAnOwnNumber[indexArray])
@@ -126,25 +128,68 @@ export class pathAttuation
     
           pathData.origin = pathData.target
           pathData.target += 1
+          pathData.fraction = 0
     
-          if (pathData.target >= pathData.wanderPoints.length) 
+          if (pathData.origin >= pathData.wanderPoints.length) 
           {
             //la lista dei punti e' finita
 
-            //Lay the egg                                 IT HAS TO BE GIVEN FROM THE SC
+            const egg = new Droppable(transform.position, false)
+
+            //                            IT HAS TO BE GIVEN FROM THE SC
             recompensatePlayer(false, wichOfTheListIsAnOwnNumber[indexArray])
 
+            //sono nell ultima casella, store the position
+            lastPathPoint = transform.position
+
+            pathData.origin = 0
+            pathData.target = 1
+
             walking = false
+            exiting = true
           }
     
-          timer = animCooldown
-          pathData.fraction = 0
-          transform.lookAt(pathData.wanderPoints[pathData.target])
+          //transform.lookAt(pathData.wanderPoints[pathData.target])
         } 
       }
-      else if(!entering)
+      else if(!walking)
       {
+        //mi trovo nell ultima box
+        //devo andare all exit point
         let transform = chicken.getComponent(Transform)
+        let pathData = chicken.getComponent(LerpData)
+        pathData.fraction += dt / 6
+        log(pathData.fraction)
+
+        if(pathData.fraction < 1)
+        {
+          transform.position = Vector3.Lerp(
+            pathData.exitPoints[pathData.origin],
+            pathData.exitPoints[pathData.target], 
+            pathData.fraction)
+        }
+        else
+        {
+          pathData.origin = pathData.target
+          pathData.target += 1
+          pathData.fraction = 0
+          
+          if (pathData.origin == 2)
+          {
+            log("finish")
+            engine.removeSystem(this)
+          }
+
+        }
+      }
+    }
+  }
+
+
+
+
+
+/**let transform = chicken.getComponent(Transform)
         let pathData = chicken.getComponent(LerpData)        
         pathData.fraction += dt / 6
 
@@ -178,10 +223,23 @@ export class pathAttuation
           {
             //FINE  del gioco
           }
-        }
-      }
-    }
-  }
+        } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -193,7 +251,7 @@ let indexArray = 0
 
 export function chickenPathCreation(numbersOwnThisRound: Array<number>)
 {
-  for(let i = 0; i < 2; i++)
+  for(let i = 0; i < 3; i++)
   {    
     let odds = Math.random()
     if(odds < 0.8)
