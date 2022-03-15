@@ -54,7 +54,7 @@ export function recompensatePlayer(poop: Boolean, winningNumber: Number)
             if(winningNumber = numbersOfTickets[i])
             {
                 const winner = playersAddresses[i]
-                log(winner)
+                log("Hai vinto purco dio")
 
 
                 //paga il player
